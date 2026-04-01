@@ -1,0 +1,140 @@
+---
+---
+
+<div class="hud-container">
+  <div class="hud-ring-wrapper">
+    <svg class="hud-ring" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+      <!-- Outer decorative ring -->
+      <circle cx="500" cy="500" r="480" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.4" class="hud-circle outer"/>
+      <circle cx="500" cy="500" r="450" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.3" stroke-dasharray="20 10 5 10" class="hud-circle outer-dashed"/>
+
+      <!-- Segmented ring -->
+      <g opacity="0.5">
+        <circle cx="500" cy="500" r="420" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="60 30" class="hud-circle segments"/>
+        <circle cx="500" cy="500" r="410" fill="none" stroke="var(--accent-secondary)" stroke-width="2" stroke-dasharray="30 60" class="hud-circle segments-inner"/>
+      </g>
+
+      <!-- Data arcs -->
+      <g opacity="0.4">
+        <path d="M 500,150 A 350,350 0 0,1 850,500" fill="none" stroke="var(--accent)" stroke-width="25" stroke-linecap="round"/>
+        <path d="M 500,150 A 350,350 0 0,1 850,500" fill="none" stroke="var(--accent)" stroke-width="20" stroke-linecap="round" stroke-dasharray="100 200"/>
+      </g>
+
+      <g opacity="0.4">
+        <path d="M 150,500 A 350,350 0 0,1 500,150" fill="none" stroke="var(--accent-secondary)" stroke-width="20" stroke-linecap="round"/>
+        <path d="M 150,500 A 350,350 0 0,1 500,150" fill="none" stroke="var(--accent-secondary)" stroke-width="15" stroke-linecap="round" stroke-dasharray="50 150"/>
+      </g>
+
+      <!-- Inner ring with tick marks -->
+      <g opacity="0.55">
+        <circle cx="500" cy="500" r="320" fill="none" stroke="var(--accent)" stroke-width="1"/>
+        <!-- Generate tick marks -->
+        {[...Array(24)].map((_, i) => {
+          const angle = (i * 15 * Math.PI) / 180;
+          const r1 = 320;
+          const r2 = i % 6 === 0 ? 340 : 330;
+          const x1 = 500 + r1 * Math.cos(angle);
+          const y1 = 500 + r1 * Math.sin(angle);
+          const x2 = 500 + r2 * Math.cos(angle);
+          const y2 = 500 + r2 * Math.sin(angle);
+          return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--accent)" stroke-width="${i % 6 === 0 ? 2 : 1}"/>`;
+        }).join('')}
+      </g>
+
+      <!-- Center ring -->
+      <circle cx="500" cy="500" r="200" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="500" cy="500" r="180" fill="none" stroke="var(--accent-secondary)" stroke-width="2" opacity="0.45" stroke-dasharray="5 5"/>
+
+      <!-- Corner brackets -->
+      <g opacity="0.5" stroke="var(--accent)" stroke-width="3" fill="none">
+        <!-- Top-left bracket -->
+        <path d="M 100,200 L 100,100 L 200,100"/>
+        <!-- Top-right bracket -->
+        <path d="M 800,100 L 900,100 L 900,200"/>
+        <!-- Bottom-left bracket -->
+        <path d="M 100,800 L 100,900 L 200,900"/>
+        <!-- Bottom-right bracket -->
+        <path d="M 800,900 L 900,900 L 900,800"/>
+      </g>
+
+      <!-- Decorative lines -->
+      <g opacity="0.35" stroke="var(--accent)" stroke-width="2">
+        <line x1="500" y1="50" x2="500" y2="150"/>
+        <line x1="500" y1="850" x2="500" y2="950"/>
+        <line x1="50" y1="500" x2="150" y2="500"/>
+        <line x1="850" y1="500" x2="950" y2="500"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .hud-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .hud-ring-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(150vw, 150vh);
+    height: min(150vw, 150vh);
+    transform: translate(-50%, -50%) scale(0.8);
+    animation: hud-scale linear;
+    animation-timeline: scroll(root);
+    animation-range: 0% 100%;
+  }
+
+  @keyframes hud-scale {
+    from {
+      transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) scale(2) rotate(45deg);
+    }
+  }
+
+  .hud-ring {
+    width: 100%;
+    height: 100%;
+    animation: hud-rotate linear;
+    animation-timeline: scroll(root);
+    animation-range: 0% 100%;
+  }
+
+  @keyframes hud-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(90deg);
+    }
+  }
+
+  /* Fallback for browsers without scroll-driven animations */
+  @supports not (animation-timeline: scroll()) {
+    .hud-ring-wrapper {
+      animation: none;
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    .hud-ring {
+      animation: hud-rotate-slow 60s linear infinite;
+    }
+    @keyframes hud-rotate-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hud-ring-wrapper,
+    .hud-ring {
+      animation: none;
+    }
+  }
+</style>

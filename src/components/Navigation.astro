@@ -1,0 +1,246 @@
+---
+const navItems = [
+  { label: 'About', href: '#about' },
+  { label: 'Experiences', href: '#experiences' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Misc', href: '#misc' },
+];
+---
+
+<nav class="nav" id="navigation">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-bracket">[</span>
+      <span class="nav-logo-text">portfolio</span>
+      <span class="nav-logo-bracket">]</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      {navItems.map((item) => (
+        <li class="nav-item">
+          <a href={item.href} class="nav-link">
+            <span class="nav-link-hash">#</span>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  // Mobile navigation toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+
+  navToggle?.addEventListener('click', () => {
+    navLinks?.classList.toggle('is-open');
+    navToggle?.classList.toggle('is-active');
+  });
+
+  // Close mobile menu when clicking a link
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks?.classList.remove('is-open');
+      navToggle?.classList.remove('is-active');
+    });
+  });
+
+  // Active section highlighting on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.nav-link');
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-50% 0px -50% 0px',
+    threshold: 0
+  };
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navItems.forEach(item => {
+          item.classList.remove('is-active');
+          if (item.getAttribute('href') === `#${id}`) {
+            item.classList.add('is-active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => sectionObserver.observe(section));
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--nav-height);
+    background-color: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .nav-logo-bracket {
+    color: var(--accent);
+  }
+
+  .nav-logo-text {
+    color: var(--text-primary);
+  }
+
+  .nav-logo:hover .nav-logo-text {
+    color: var(--accent-secondary);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .nav-link-hash {
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  .nav-link:hover,
+  .nav-link.is-active {
+    color: var(--text-primary);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+    transition: width var(--transition-base);
+  }
+
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    width: 100%;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .nav-toggle-bar {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-links {
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      background-color: rgba(10, 10, 15, 0.98);
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--border-color);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .nav-links.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-item {
+      width: 100%;
+    }
+
+    .nav-link {
+      padding: var(--space-sm) 0;
+      width: 100%;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-link::after {
+      display: none;
+    }
+
+    .nav-toggle.is-active .nav-toggle-bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle.is-active .nav-toggle-bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.is-active .nav-toggle-bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+</style>

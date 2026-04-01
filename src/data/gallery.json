@@ -1,0 +1,62 @@
+{
+  "previewImages": [
+    {
+      "src": "DSC03646.JPG",
+      "alt": "Gallery image 1",
+      "title": "",
+      "aspectRatio": "3/4",
+      "sizeClass": "portrait-lg"
+    },
+    {
+      "src": "DSC04109.JPG",
+      "alt": "Gallery image 2",
+      "title": "",
+      "aspectRatio": "4/3",
+      "sizeClass": "landscape"
+    },
+    {
+      "src": "DSC04255.JPG",
+      "alt": "Gallery image 3",
+      "title": "",
+      "aspectRatio": "1/1",
+      "sizeClass": "square"
+    },
+    {
+      "src": "DSC04286.JPG",
+      "alt": "Gallery image 4",
+      "title": "",
+      "aspectRatio": "16/9",
+      "sizeClass": "wide"
+    },
+    {
+      "src": "DSC04310.JPG",
+      "alt": "Gallery image 5",
+      "title": "",
+      "aspectRatio": "3/4",
+      "sizeClass": "portrait-sm"
+    },
+    {
+      "src": "bamboo.png",
+      "alt": "Gallery image 6",
+      "title": "",
+      "aspectRatio": "4/5",
+      "sizeClass": "portrait"
+    }
+  ],
+  "allImages": [
+    { "src": "DSC03646.JPG", "alt": "Gallery image 1", "aspectRatio": "3/4" },
+    { "src": "DSC04109.JPG", "alt": "Gallery image 2", "aspectRatio": "4/3" },
+    { "src": "DSC04255.JPG", "alt": "Gallery image 3", "aspectRatio": "1/1" },
+    { "src": "DSC04286.JPG", "alt": "Gallery image 4", "aspectRatio": "16/9" },
+    { "src": "DSC04294.JPG", "alt": "Gallery image 5", "aspectRatio": "3/4" },
+    { "src": "DSC04310.JPG", "alt": "Gallery image 6", "aspectRatio": "3/4" },
+    { "src": "DSC04337.JPG", "alt": "Gallery image 7", "aspectRatio": "4/3" },
+    { "src": "DSC04343.JPG", "alt": "Gallery image 8", "aspectRatio": "4/3" },
+    { "src": "DSC04358.JPG", "alt": "Gallery image 9", "aspectRatio": "1/1" },
+    { "src": "DSC04533.JPG", "alt": "Gallery image 10", "aspectRatio": "3/4" },
+    { "src": "DSC05519.JPG", "alt": "Gallery image 11", "aspectRatio": "4/3" },
+    { "src": "DSC05860.JPG", "alt": "Gallery image 12", "aspectRatio": "16/9" },
+    { "src": "DSC05916.JPG", "alt": "Gallery image 13", "aspectRatio": "3/4" },
+    { "src": "bamboo.png", "alt": "Gallery image 14", "aspectRatio": "4/5" }
+  ]
+}

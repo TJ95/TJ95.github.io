@@ -1,0 +1,172 @@
+---
+interface GalleryImage {
+  src: string;
+  alt: string;
+  title?: string;
+  aspectRatio?: string;
+  sizeClass?: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+  columns?: 2 | 3 | 4;
+  gap?: string;
+  class?: string;
+}
+
+const {
+  images,
+  columns = 3,
+  gap = '1rem',
+  class: className = ''
+} = Astro.props;
+
+const columnClass = `masonry-columns-${columns}`;
+
+// Extract aspect ratio numbers for width/height calculation
+function parseAspectRatio(ratio: string | undefined): { w: number; h: number } {
+  if (!ratio) return { w: 4, h: 3 };
+  const [w, h] = ratio.split('/').map(Number);
+  return { w: w || 4, h: h || 3 };
+}
+---
+
+<div class={`masonry-grid ${columnClass} ${className}`} style={`--masonry-gap: ${gap}`}>
+  {images.map((image, index) => {
+    const { w, h } = parseAspectRatio(image.aspectRatio);
+    return (
+      <div
+        class="masonry-item"
+        style={image.aspectRatio ? `--item-ratio: ${image.aspectRatio}` : undefined}
+        data-index={index}
+      >
+        <div class="masonry-image-wrapper">
+          <img
+            src={`/images/gallery/${image.src}`}
+            alt={image.alt}
+            loading="lazy"
+            decoding="async"
+            class="masonry-image"
+            width={400}
+            height={Math.round(400 * h / w)}
+            fetchpriority={index < 4 ? "high" : "low"}
+          />
+          {image.title && <span class="masonry-title">{image.title}</span>}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .masonry-grid {
+    --masonry-gap: 1rem;
+    width: 100%;
+  }
+
+  .masonry-columns-2 {
+    columns: 2;
+    column-gap: var(--masonry-gap);
+  }
+
+  .masonry-columns-3 {
+    columns: 3;
+    column-gap: var(--masonry-gap);
+  }
+
+  .masonry-columns-4 {
+    columns: 4;
+    column-gap: var(--masonry-gap);
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: var(--masonry-gap);
+    position: relative;
+  }
+
+  .masonry-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+    aspect-ratio: var(--item-ratio, auto);
+  }
+
+  .masonry-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* GPU acceleration for smoother scrolling */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Only animate on hover when not scrolling (performance) */
+  @media (hover: hover) and (pointer: fine) {
+    .masonry-item:hover .masonry-image {
+      transform: scale(1.03);
+      filter: brightness(1.08);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+  }
+
+  .masonry-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .masonry-item:hover .masonry-title {
+    opacity: 1;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .masonry-columns-4 {
+      columns: 3;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .masonry-columns-3,
+    .masonry-columns-4 {
+      columns: 2;
+    }
+
+    /* Reduce animation on mobile for better performance */
+    .masonry-image {
+      will-change: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .masonry-columns-2,
+    .masonry-columns-3,
+    .masonry-columns-4 {
+      columns: 1;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .masonry-image {
+      will-change: auto;
+      transform: none;
+    }
+
+    .masonry-item:hover .masonry-image {
+      transform: none;
+      filter: none;
+    }
+  }
+</style>

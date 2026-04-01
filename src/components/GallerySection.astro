@@ -1,0 +1,198 @@
+---
+import Section from './Section.astro';
+import ScrollReveal from './ScrollReveal.astro';
+import GalleryGrid from './GalleryGrid.astro';
+import GalleryModal from './GalleryModal.astro';
+import galleryData from '../data/gallery.json';
+---
+
+<Section id="gallery" class="gallery-section">
+  <ScrollReveal>
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Gallery</h2>
+      <p class="section-description">
+        Capturing moments through the lens
+      </p>
+    </div>
+  </ScrollReveal>
+
+  <ScrollReveal animation="fade-scale" delay={1}>
+    <div class="gallery-preview">
+      <GalleryGrid
+        images={galleryData.previewImages}
+        columns={3}
+        gap="1rem"
+        class="gallery-preview-grid"
+      />
+      <div class="gallery-fade-overlay"></div>
+    </div>
+  </ScrollReveal>
+
+  <ScrollReveal animation="fade-up" delay={2}>
+    <div class="gallery-actions">
+      <button
+        class="btn btn-secondary gallery-view-btn"
+        id="gallery-view-btn"
+        aria-label="View full gallery"
+      >
+        <span>View Full Gallery</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </ScrollReveal>
+
+  <GalleryModal images={galleryData.allImages} />
+</Section>
+
+<style>
+  .gallery-section {
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: var(--space-2xl);
+    text-align: center;
+  }
+
+  .section-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-description {
+    max-width: 500px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+  }
+
+  .gallery-preview {
+    position: relative;
+    max-height: 500px;
+    overflow: hidden;
+    margin-bottom: var(--space-xl);
+    /* Performance: isolate rendering */
+    contain: layout paint;
+    /* Prevent scroll-linked animation jank */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(1)) {
+    aspect-ratio: 3/4;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(2)) {
+    aspect-ratio: 4/3;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(3)) {
+    aspect-ratio: 1/1;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(4)) {
+    aspect-ratio: 16/9;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(5)) {
+    aspect-ratio: 3/4;
+  }
+
+  .gallery-preview-grid :global(.masonry-item:nth-child(6)) {
+    aspect-ratio: 4/5;
+  }
+
+  .gallery-fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--bg-primary) 100%
+    );
+    pointer-events: none;
+  }
+
+  .gallery-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-lg);
+  }
+
+  .gallery-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.875rem 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .gallery-view-btn svg {
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-view-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .gallery-preview {
+      max-height: 400px;
+    }
+
+    .gallery-fade-overlay {
+      height: 150px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-preview {
+      max-height: 350px;
+    }
+
+    .gallery-view-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const viewBtn = document.getElementById('gallery-view-btn');
+
+    if (viewBtn) {
+      viewBtn.addEventListener('click', () => {
+        if ((window as any).openGalleryModal) {
+          (window as any).openGalleryModal();
+        }
+      });
+    }
+  })();
+</script>

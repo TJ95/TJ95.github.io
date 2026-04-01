@@ -1,0 +1,319 @@
+/* Scroll-driven Animations with CSS animation-timeline and JS fallback */
+
+/* ============================================
+   CSS Scroll-Driven Animations (Modern Browsers)
+   ============================================ */
+
+/* Base reveal class - elements start hidden */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* For browsers that support animation-timeline */
+@supports (animation-timeline: view()) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+
+  .reveal-left {
+    animation: fade-left linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+
+  .reveal-right {
+    animation: fade-right linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+
+  .reveal-scale {
+    animation: fade-scale linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+
+  /* Staggered delays using animation-delay with view timeline */
+  .reveal-delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .reveal-delay-2 {
+    animation-delay: 0.2s;
+  }
+
+  .reveal-delay-3 {
+    animation-delay: 0.3s;
+  }
+}
+
+/* ============================================
+   Keyframe Animations
+   ============================================ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   Intersection Observer Fallback Classes
+   These are applied via JS for browsers without
+   animation-timeline support
+   ============================================ */
+
+/* JS adds .is-visible class when element enters viewport */
+.reveal.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible {
+  animation: fade-up 0.6s ease forwards;
+}
+
+.reveal-left.is-visible {
+  animation-name: fade-left;
+}
+
+.reveal-right.is-visible {
+  animation-name: fade-right;
+}
+
+.reveal-scale.is-visible {
+  animation-name: fade-scale;
+}
+
+/* Staggered animation delays for JS fallback */
+.reveal-delay-1.is-visible {
+  animation-delay: 0.1s;
+}
+
+.reveal-delay-2.is-visible {
+  animation-delay: 0.2s;
+}
+
+.reveal-delay-3.is-visible {
+  animation-delay: 0.3s;
+}
+
+/* ============================================
+   Hero-specific animations
+   ============================================ */
+
+.hero-title {
+  animation: hero-fade-in 1s ease-out forwards;
+}
+
+.hero-subtitle {
+  opacity: 0;
+  animation: hero-fade-in 1s ease-out 0.3s forwards;
+}
+
+.hero-content {
+  opacity: 0;
+  animation: hero-fade-in 1s ease-out 0.6s forwards;
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Hover animations
+   ============================================ */
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+/* ============================================
+   Gradient animation for accents
+   ============================================ */
+
+.animated-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    var(--accent-secondary) 50%,
+    var(--accent) 100%
+  );
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ============================================
+   Pulse animation for live indicators
+   ============================================ */
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   Gallery Modal Animations
+   ============================================ */
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Gallery Image Hover Effects
+   ============================================ */
+
+.gallery-image-hover {
+  transition: transform 0.5s ease, filter 0.5s ease, box-shadow 0.3s ease;
+}
+
+.gallery-image-hover:hover {
+  transform: scale(1.03);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   Reduced motion preferences
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .hero-title,
+  .hero-subtitle,
+  .hero-content {
+    opacity: 1;
+    animation: none;
+  }
+
+  .animated-gradient {
+    animation: none;
+  }
+
+  .pulse {
+    animation: none;
+  }
+
+  .gallery-image-hover {
+    transition: none;
+  }
+
+  .gallery-image-hover:hover {
+    transform: none;
+    filter: none;
+  }
+}

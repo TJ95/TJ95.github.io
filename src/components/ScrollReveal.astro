@@ -1,0 +1,28 @@
+---
+interface Props {
+  animation?: 'fade-up' | 'fade-left' | 'fade-right' | 'fade-scale';
+  delay?: 0 | 1 | 2 | 3;
+  class?: string;
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const {
+  animation = 'fade-up',
+  delay = 0,
+  class: className = '',
+  as: Tag = 'div'
+} = Astro.props;
+
+const animationClass = {
+  'fade-up': 'reveal',
+  'fade-left': 'reveal-left',
+  'fade-right': 'reveal-right',
+  'fade-scale': 'reveal-scale'
+}[animation];
+
+const delayClass = delay > 0 ? `reveal-delay-${delay}` : '';
+---
+
+<Tag class={`${animationClass} ${delayClass} ${className}`}>
+  <slot />
+</Tag>

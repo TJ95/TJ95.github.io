@@ -1,0 +1,50 @@
+[
+  {
+    "title": "E-Commerce Dashboard",
+    "description": "A comprehensive admin dashboard for managing products, orders, and analytics. Built with real-time data visualization and dark mode support.",
+    "tech": ["React", "TypeScript", "Tailwind", "Recharts"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-1.jpg"
+  },
+  {
+    "title": "Task Management App",
+    "description": "Collaborative task manager with drag-and-drop functionality, team workspaces, and deadline tracking. Features real-time sync across devices.",
+    "tech": ["Next.js", "Prisma", "PostgreSQL", "Socket.io"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-2.jpg"
+  },
+  {
+    "title": "Portfolio Generator",
+    "description": "CLI tool for generating static portfolio sites from markdown files. Supports custom themes and automatic GitHub Pages deployment.",
+    "tech": ["Node.js", "Astro", "MDX", "GitHub Actions"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-3.jpg"
+  },
+  {
+    "title": "Weather Station",
+    "description": "IoT weather monitoring system with a web dashboard. Collects temperature, humidity, and pressure data from multiple sensors.",
+    "tech": ["Python", "FastAPI", "InfluxDB", "Grafana"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-4.jpg"
+  },
+  {
+    "title": "Code Snippets",
+    "description": "A curated collection of useful code snippets with syntax highlighting, search, and copy-to-clipboard functionality.",
+    "tech": ["Vue.js", "Vite", "Shiki", "Vercel"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-5.jpg"
+  },
+  {
+    "title": "API Gateway",
+    "description": "Microservices API gateway with rate limiting, authentication, and request routing. Includes comprehensive logging and monitoring.",
+    "tech": ["Go", "Redis", "Docker", "Kubernetes"],
+    "link": "https://example.com",
+    "github": "https://github.com",
+    "image": "/images/project-6.jpg"
+  }
+]
